@@ -55,7 +55,7 @@ A Discord bot that monitors count channels and manages rewards based on counting
 
 ### Server Management
 - `/set-count-channel <channel>` - Set the count channel to monitor (Admin only)
-- `/current-count` - Show the current count
+- `/current_count` - Show the current count
 
 ### Rewards
 - `/add-reward <goal> <description>` - Add a reward for a specific count goal
@@ -91,26 +91,26 @@ The bot uses SQLite to store:
 
 ## Privacy & Data Management
 
-This bot is designed with privacy in mind:
+The bot includes comprehensive privacy controls:
 
-- **Minimal data collection**: Only stores essential Discord IDs and user-provided content
-- **Self-service data management**: Users can view and delete their data without admin intervention
-- **Transparent data handling**: Use `/my-data` to see exactly what data is stored
-- **Instant data deletion**: Use `/remove-my-data` to permanently delete all personal data
+### **User Data Rights**
+- **View your data:** Use `/my-data` to see all personal information stored
+- **Delete your data:** Use `/remove-my-data` to permanently remove all personal data
+- **Self-service:** No admin approval required - you control your own data
 
-### What data is collected?
-- Discord Server IDs (to identify which servers use the bot)
-- Discord User IDs (to track reward providers and last counter)
-- Channel IDs (to track designated counting channels)
-- Count numbers (to track progress)
-- Reward descriptions (user-provided text)
+### **What Data is Stored**
+- **Rewards you create:** Goal numbers and descriptions
+- **Last counter status:** If you were the last person to count in a server
+- **Discord ID:** Used to link data to your account
 
-### Your privacy rights:
-- **Access**: Use `/my-data` to view all stored data about you
-- **Deletion**: Use `/remove-my-data` to permanently delete your data
-- **Transparency**: Full privacy policy available at [website]/privacy.html
+### **Data Removal**
+- Removes all rewards you've created (across all servers)
+- Clears your "last counter" status from all servers
+- Permanent deletion - cannot be undone
+- You can continue using the bot normally after removal
 
-Data removal is instant and doesn't require server admin permissions. You can continue using the bot normally after removing your data.
+### **Privacy Policy**
+View the full privacy policy at `/privacy.html` on the bot's website for complete details on data handling and your rights.
 
 ## Troubleshooting
 

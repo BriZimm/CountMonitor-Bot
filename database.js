@@ -258,14 +258,16 @@ class Database {
 
             // Get rewards provided by user
             this.db.all(
-                'SELECT r.*, s.guild_id FROM rewards r JOIN servers s ON r.guild_id = s.guild_id WHERE r.provider_id = ?',
+                'SELECT * FROM rewards WHERE provider_id = ?',
                 [userId],
                 (err, rewardRows) => {
                     if (err) {
+                        console.error('Error fetching user rewards:', err);
                         reject(err);
                         return;
                     }
-                    userData.rewards = rewardRows;
+                    
+                    userData.rewards = rewardRows || [];
 
                     // Get servers where user was last counter
                     this.db.all(
@@ -273,10 +275,12 @@ class Database {
                         [userId],
                         (err, serverRows) => {
                             if (err) {
+                                console.error('Error fetching user server data:', err);
                                 reject(err);
                                 return;
                             }
-                            userData.lastCounterIn = serverRows;
+                            
+                            userData.lastCounterIn = serverRows || [];
                             resolve(userData);
                         }
                     );
