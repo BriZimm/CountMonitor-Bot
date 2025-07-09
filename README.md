@@ -109,9 +109,8 @@ This error occurs when the Message Content Intent is not enabled. To fix:
 - Check that the bot role is higher than roles it needs to interact with
 - Verify channel permissions allow the bot to read/send messages
 
-# Install URL: https://discord.com/oauth2/authorize?client_id=1330684676679143476&permissions=277025459264&integration_type=1&scope=applications.commands+bot
-
-https://discord.com/oauth2/authorize?client_id=1330684676679143476&permissions=277025459264&integration_type=1&scope=applications.commands+bot
+# Install URL: 
+https://discord.com/oauth2/authorize?client_id=1330684676679143476&permissions=277025729600&integration_type=1&scope=applications.commands+bot
 
 ## Installation & Deployment
 
