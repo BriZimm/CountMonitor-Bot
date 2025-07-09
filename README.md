@@ -154,7 +154,7 @@ This error occurs when the Discord bot token is missing or incorrect in your dep
    - If you regenerated the token, update it everywhere
 
 # Install URL: 
-https://discord.com/oauth2/authorize?client_id=1330684676679143476&permissions=277025459264&scope=bot%20applications.commands
+https://discord.com/oauth2/authorize?client_id=1330684676679143476&permissions=277025467456&integration_type=0&scope=bot+applications.commands
 
 ## Installation & Deployment
 
