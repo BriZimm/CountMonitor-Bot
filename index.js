@@ -54,7 +54,7 @@ async function registerCommands() {
 }
 
 // Bot ready event
-client.once('Bot is ready', () => {
+client.once('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
     registerCommands();
 });
@@ -63,13 +63,19 @@ client.once('Bot is ready', () => {
 client.on('interactionCreate', async interaction => {
     if (!interaction.isChatInputCommand()) return;
 
+    console.log(`Command received: ${interaction.commandName} from ${interaction.user.tag}`);
+
     const command = client.commands.get(interaction.commandName);
-    if (!command) return;
+    if (!command) {
+        console.log(`Command ${interaction.commandName} not found`);
+        return;
+    }
 
     try {
         await command.execute(interaction);
+        console.log(`Command ${interaction.commandName} executed successfully`);
     } catch (error) {
-        console.error(error);
+        console.error('Error executing command:', error);
         const reply = {
             content: 'There was an error while executing this command!',
             ephemeral: true
