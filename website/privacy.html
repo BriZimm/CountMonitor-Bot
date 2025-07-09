@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Count Monitor Bot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .back-link {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            color: #f0f0f0;
+            text-decoration: none;
+            margin-bottom: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .content {
+            background: white;
+            border-radius: 15px;
+            padding: 3rem;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .content h2 {
+            color: #5865f2;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .content h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            margin-top: 2rem;
+            font-size: 1.3rem;
+        }
+
+        .content p {
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+
+        .content ul {
+            margin-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .content li {
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        .data-table th,
+        .data-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .data-table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+
+        .last-updated {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .content {
+                padding: 2rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .data-table {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="/" class="back-link">← Back to Home</a>
+            <h1>🔒 Privacy Policy</h1>
+        </div>
+
+        <div class="content">
+            <h2>Privacy Policy for Count Monitor Bot</h2>
+            
+            <h3>1. Information We Collect</h3>
+            <p>Count Monitor Bot collects only the minimum data necessary to provide its services:</p>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Data Type</th>
+                        <th>Purpose</th>
+                        <th>Retention</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Discord Server IDs</td>
+                        <td>Identify which servers use the bot</td>
+                        <td>Until bot is removed from server</td>
+                    </tr>
+                    <tr>
+                        <td>Channel IDs</td>
+                        <td>Track designated counting channels</td>
+                        <td>Until configuration is changed</td>
+                    </tr>
+                    <tr>
+                        <td>User IDs</td>
+                        <td>Track reward providers and last counter</td>
+                        <td>Until reward is claimed or data is reset</td>
+                    </tr>
+                    <tr>
+                        <td>Count Numbers</td>
+                        <td>Track counting progress</td>
+                        <td>Indefinitely for historical purposes</td>
+                    </tr>
+                    <tr>
+                        <td>Reward Descriptions</td>
+                        <td>Store reward information</td>
+                        <td>Until reward is claimed or deleted</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>2. How We Use Your Information</h3>
+            <p>We use the collected information to:</p>
+            <ul>
+                <li>Provide counting channel monitoring services</li>
+                <li>Manage and track rewards for counting milestones</li>
+                <li>Send notifications when reward goals are reached</li>
+                <li>Celebrate counting achievements and milestones</li>
+            </ul>
+
+            <h3>3. Data Storage and Security</h3>
+            <p>Your data is stored securely:</p>
+            <ul>
+                <li>Data is stored in an encrypted SQLite database</li>
+                <li>Database is hosted on secure cloud infrastructure</li>
+                <li>Access is restricted to authorized bot operations only</li>
+                <li>No personal information beyond Discord IDs is collected</li>
+            </ul>
+
+            <h3>4. Data Sharing</h3>
+            <p>We do not share your data with third parties, except:</p>
+            <ul>
+                <li>When required by law or legal process</li>
+                <li>With Discord's API for bot functionality</li>
+                <li>With our hosting provider for technical operations</li>
+            </ul>
+
+            <h3>5. Your Rights</h3>
+            <p>You have the right to:</p>
+            <ul>
+                <li><strong>Access:</strong> Use the <code>/my-data</code> command to view all data we store about you</li>
+                <li><strong>Deletion:</strong> Use the <code>/remove-my-data</code> command to permanently delete all your personal data</li>
+                <li><strong>Correction:</strong> Request correction of inaccurate data through our support channels</li>
+                <li><strong>Portability:</strong> Request your data in a machine-readable format through our support channels</li>
+                <li><strong>Server-level deletion:</strong> Remove the bot from your server to delete all server-related data</li>
+            </ul>
+
+            <h3>6. Self-Service Data Management</h3>
+            <p>We provide easy-to-use commands for managing your personal data:</p>
+            <ul>
+                <li><strong><code>/my-data</code>:</strong> View all personal data we have stored about you</li>
+                <li><strong><code>/remove-my-data</code>:</strong> Permanently delete all your personal data from our database</li>
+                <li>These commands work instantly and don't require server administrator permissions</li>
+                <li>Data removal is permanent and cannot be undone</li>
+                <li>You can continue using the bot normally after data removal</li>
+            </ul>
+
+            <h3>7. Data Retention</h3>
+            <p>We retain your data as follows:</p>
+            <ul>
+                <li>Server configuration data: Until bot is removed from server</li>
+                <li>Reward data: Until rewards are claimed, manually deleted, or removed via <code>/remove-my-data</code></li>
+                <li>Count history: Indefinitely for service functionality</li>
+                <li>User associations: Until rewards are claimed, data is reset, or removed via <code>/remove-my-data</code></li>
+                <li>Personal data can be removed at any time using the <code>/remove-my-data</code> command</li>
+            </ul>
+
+            <h3>8. Children's Privacy</h3>
+            <p>The Bot is not intended for use by children under 13. We do not knowingly collect personal information from children under 13. If you believe we have collected information from a child under 13, please contact us immediately.</p>
+
+            <h3>9. International Data Transfers</h3>
+            <p>Your data may be transferred to and processed in countries other than your own. We ensure appropriate safeguards are in place to protect your data during such transfers.</p>
+
+            <h3>10. Changes to This Policy</h3>
+            <p>We may update this Privacy Policy from time to time. We will notify users of any material changes by posting the new Privacy Policy on this page. Your continued use of the Bot after changes are posted constitutes acceptance of the new policy.</p>
+
+            <h3>11. Contact Us</h3>
+            <p>If you have any questions about this Privacy Policy or want to exercise your rights, please contact us:</p>
+            <ul>
+                <li><strong>Self-Service:</strong> Use <code>/my-data</code> to view your data or <code>/remove-my-data</code> to delete it</li>
+                <li>Through our GitHub repository</li>
+                <li>Via Discord server (if available)</li>
+                <li>By removing the bot from your server (for server-level data deletion)</li>
+            </ul>
+
+            <div class="last-updated">
+                <p>Last Updated: July 2025</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

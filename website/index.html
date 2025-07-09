@@ -24,6 +24,37 @@
             padding: 2rem;
         }
 
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1rem 0;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #f0f0f0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
         .header {
             text-align: center;
             margin-bottom: 3rem;
@@ -172,6 +203,25 @@
             margin-top: 3rem;
         }
 
+        .footer-links {
+            margin-top: 1rem;
+        }
+
+        .footer-links a {
+            color: #f0f0f0;
+            text-decoration: none;
+            margin: 0 0.5rem;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-links span {
+            color: #ccc;
+            margin: 0 0.5rem;
+        }
+
         .footer a {
             color: #f0f0f0;
             text-decoration: none;
@@ -193,11 +243,40 @@
             .features {
                 grid-template-columns: 1fr;
             }
+
+            .nav {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .footer-links span {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <nav class="nav">
+            <a href="/" class="nav-logo">🔢 Count Monitor Bot</a>
+            <div class="nav-links">
+                <a href="/tos.html">Terms of Service</a>
+                <a href="/privacy.html">Privacy Policy</a>
+                <a href="https://github.com/your-username/CountMonitor-Bot">GitHub</a>
+            </div>
+        </nav>
+
         <div class="header">
             <h1>🎯 Count Monitor Bot</h1>
             <p>The ultimate Discord bot for managing counting channels and rewarding milestones</p>
@@ -230,6 +309,12 @@
                 <h3>Milestone Celebrations</h3>
                 <p>Celebrates every 100-count milestone with special messages to keep your community engaged.</p>
             </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Privacy First</h3>
+                <p>Full control over your data with /my-data to view and /remove-my-data to delete your personal information instantly.</p>
+            </div>
         </div>
 
         <div class="commands">
@@ -250,6 +335,14 @@
                 <div class="command-item">
                     <code>/current-count</code>
                     <p>Show the current count and upcoming rewards</p>
+                </div>
+                <div class="command-item">
+                    <code>/my-data</code>
+                    <p>View what personal data the bot has about you</p>
+                </div>
+                <div class="command-item">
+                    <code>/remove-my-data</code>
+                    <p>Permanently delete your personal data</p>
                 </div>
             </div>
         </div>
@@ -281,8 +374,14 @@
         </div>
 
         <div class="footer">
-            <p>Built with ❤️ for Discord communities</p>
-            <p><a href="https://github.com/your-username/CountMonitor-Bot">View on GitHub</a></p>
+            <p>Built with ❤️ for Discord communities by @rocketraider</p>
+            <div class="footer-links">
+                <a href="/tos.html">Terms of Service</a>
+                <span>•</span>
+                <a href="/privacy.html">Privacy Policy</a>
+                <span>•</span>
+                <a href="https://github.com/your-username/CountMonitor-Bot">View on GitHub</a>
+            </div>
         </div>
     </div>
 </body>

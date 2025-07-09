@@ -4,6 +4,9 @@ const fs = require('fs');
 const path = require('path');
 const Database = require('./database');
 
+// Start web server for static website
+require('./web-server');
+
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,

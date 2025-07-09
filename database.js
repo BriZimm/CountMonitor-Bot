@@ -205,6 +205,86 @@ class Database {
         });
     }
 
+    // User data management
+    async removeUserData(userId) {
+        return new Promise((resolve, reject) => {
+            this.db.serialize(() => {
+                this.db.run('BEGIN TRANSACTION');
+                
+                // Remove user as reward provider
+                this.db.run(
+                    'DELETE FROM rewards WHERE provider_id = ?',
+                    [userId],
+                    (err) => {
+                        if (err) {
+                            this.db.run('ROLLBACK');
+                            reject(err);
+                            return;
+                        }
+                    }
+                );
+                
+                // Remove user as last counter
+                this.db.run(
+                    'UPDATE servers SET last_counter_id = NULL WHERE last_counter_id = ?',
+                    [userId],
+                    (err) => {
+                        if (err) {
+                            this.db.run('ROLLBACK');
+                            reject(err);
+                            return;
+                        }
+                    }
+                );
+                
+                this.db.run('COMMIT', (err) => {
+                    if (err) {
+                        this.db.run('ROLLBACK');
+                        reject(err);
+                    } else {
+                        resolve({ success: true, message: 'User data removed successfully' });
+                    }
+                });
+            });
+        });
+    }
+
+    async getUserData(userId) {
+        return new Promise((resolve, reject) => {
+            const userData = {
+                rewards: [],
+                lastCounterIn: []
+            };
+
+            // Get rewards provided by user
+            this.db.all(
+                'SELECT r.*, s.guild_id FROM rewards r JOIN servers s ON r.guild_id = s.guild_id WHERE r.provider_id = ?',
+                [userId],
+                (err, rewardRows) => {
+                    if (err) {
+                        reject(err);
+                        return;
+                    }
+                    userData.rewards = rewardRows;
+
+                    // Get servers where user was last counter
+                    this.db.all(
+                        'SELECT guild_id, current_count FROM servers WHERE last_counter_id = ?',
+                        [userId],
+                        (err, serverRows) => {
+                            if (err) {
+                                reject(err);
+                                return;
+                            }
+                            userData.lastCounterIn = serverRows;
+                            resolve(userData);
+                        }
+                    );
+                }
+            );
+        });
+    }
+
     close() {
         this.db.close((err) => {
             if (err) {

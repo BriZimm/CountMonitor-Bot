@@ -11,6 +11,7 @@ A Discord bot that monitors count channels and manages rewards based on counting
 - Limit one reward per goal
 - List current rewards and goals
 - Celebrate milestones every 100 counts
+- **Privacy-first design with self-service data management**
 
 ## Setup
 
@@ -52,10 +53,21 @@ A Discord bot that monitors count channels and manages rewards based on counting
 
 ## Commands
 
+### Server Management
 - `/set-count-channel <channel>` - Set the count channel to monitor (Admin only)
+- `/current-count` - Show the current count
+
+### Rewards
 - `/add-reward <goal> <description>` - Add a reward for a specific count goal
 - `/list-rewards` - List all current rewards and their goals
-- `/current-count` - Show the current count
+
+### Privacy & Data Management
+- `/my-data` - View what personal data the bot has stored about you
+- `/remove-my-data` - Permanently delete all your personal data from the bot
+
+### Utility
+- `/ping` - Check if the bot is responsive
+- `/refresh-commands` - Refresh slash commands (if needed)
 
 ## Permissions Required
 
@@ -76,6 +88,29 @@ The bot uses SQLite to store:
 - Count tracking
 - Reward information
 - Goal achievements
+
+## Privacy & Data Management
+
+This bot is designed with privacy in mind:
+
+- **Minimal data collection**: Only stores essential Discord IDs and user-provided content
+- **Self-service data management**: Users can view and delete their data without admin intervention
+- **Transparent data handling**: Use `/my-data` to see exactly what data is stored
+- **Instant data deletion**: Use `/remove-my-data` to permanently delete all personal data
+
+### What data is collected?
+- Discord Server IDs (to identify which servers use the bot)
+- Discord User IDs (to track reward providers and last counter)
+- Channel IDs (to track designated counting channels)
+- Count numbers (to track progress)
+- Reward descriptions (user-provided text)
+
+### Your privacy rights:
+- **Access**: Use `/my-data` to view all stored data about you
+- **Deletion**: Use `/remove-my-data` to permanently delete your data
+- **Transparency**: Full privacy policy available at [website]/privacy.html
+
+Data removal is instant and doesn't require server admin permissions. You can continue using the bot normally after removing your data.
 
 ## Troubleshooting
 
