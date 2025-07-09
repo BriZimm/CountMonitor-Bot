@@ -20,12 +20,19 @@ client.commands = new Collection();
 
 // Load commands
 const commandsPath = path.join(__dirname, 'commands');
+console.log(`Loading commands from: ${commandsPath}`);
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+console.log(`Found command files: ${commandFiles.join(', ')}`);
 
 for (const file of commandFiles) {
     const filePath = path.join(commandsPath, file);
-    const command = require(filePath);
-    client.commands.set(command.data.name, command);
+    try {
+        const command = require(filePath);
+        client.commands.set(command.data.name, command);
+        console.log(`Loaded command: ${command.data.name}`);
+    } catch (error) {
+        console.error(`Error loading command ${file}:`, error);
+    }
 }
 
 // Register slash commands
@@ -56,28 +63,50 @@ async function registerCommands() {
 // Bot ready event
 client.once('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
+    console.log(`Bot is in ${client.guilds.cache.size} servers`);
+    
+    // Test database connection
+    client.db.getServer('test').then(() => {
+        console.log('Database connection test: SUCCESS');
+    }).catch(err => {
+        console.error('Database connection test: FAILED', err);
+    });
+    
     registerCommands();
 });
 
 // Handle slash commands
 client.on('interactionCreate', async interaction => {
-    if (!interaction.isChatInputCommand()) return;
-
-    console.log(`Command received: ${interaction.commandName} from ${interaction.user.tag}`);
-
-    const command = client.commands.get(interaction.commandName);
-    if (!command) {
-        console.log(`Command ${interaction.commandName} not found`);
+    console.log(`Interaction received: ${interaction.type} - ${interaction.isCommand ? interaction.commandName : 'Not a command'}`);
+    
+    if (!interaction.isChatInputCommand()) {
+        console.log('Not a chat input command, ignoring');
         return;
     }
 
+    console.log(`Command received: ${interaction.commandName} from ${interaction.user.tag} in guild: ${interaction.guild?.name || 'DM'}`);
+    console.log(`Guild ID: ${interaction.guild?.id}, Channel ID: ${interaction.channel?.id}`);
+
+    const command = client.commands.get(interaction.commandName);
+    if (!command) {
+        console.log(`Command ${interaction.commandName} not found in commands collection`);
+        console.log('Available commands:', Array.from(client.commands.keys()));
+        await interaction.reply({
+            content: `❌ Command not found: ${interaction.commandName}`,
+            ephemeral: true
+        });
+        return;
+    }
+
+    console.log(`Executing command: ${interaction.commandName}`);
+    
     try {
         await command.execute(interaction);
         console.log(`Command ${interaction.commandName} executed successfully`);
     } catch (error) {
-        console.error('Error executing command:', error);
+        console.error(`Error executing command ${interaction.commandName}:`, error);
         const reply = {
-            content: 'There was an error while executing this command!',
+            content: `❌ There was an error while executing this command!\n\`\`\`${error.message}\`\`\``,
             ephemeral: true
         };
         
