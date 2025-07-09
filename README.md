@@ -109,6 +109,50 @@ This error occurs when the Message Content Intent is not enabled. To fix:
 - Check that the bot role is higher than roles it needs to interact with
 - Verify channel permissions allow the bot to read/send messages
 
+### Token Invalid Error
+This error occurs when the Discord bot token is missing or incorrect in your deployment environment:
+
+1. **Check your token:**
+   - Go to [Discord Developer Portal](https://discord.com/developers/applications)
+   - Select your application → Bot
+   - Click "Reset Token" to generate a new one
+   - Copy the new token immediately (it won't be shown again)
+
+2. **Set environment variables in your hosting platform:**
+
+   **For Railway:**
+   - Go to your Railway dashboard
+   - Click on your project
+   - Go to "Variables" tab
+   - Add: `DISCORD_TOKEN=your_actual_token_here`
+   - Add: `CLIENT_ID=your_client_id_here`
+
+   **For Render:**
+   - Go to your service dashboard
+   - Click "Environment"
+   - Add environment variables:
+     - `DISCORD_TOKEN`: your_actual_token_here
+     - `CLIENT_ID`: your_client_id_here
+
+   **For Heroku:**
+   - Go to your app dashboard
+   - Click "Settings" → "Config Vars"
+   - Add: `DISCORD_TOKEN` = your_actual_token_here
+   - Add: `CLIENT_ID` = your_client_id_here
+
+   **For Cyclic:**
+   - Go to your app dashboard
+   - Click "Variables"
+   - Add environment variables with your token and client ID
+
+3. **Redeploy your application** after setting the environment variables
+
+4. **Common token issues:**
+   - Make sure you're using the BOT token, not the client secret
+   - Don't include quotes around the token in environment variables
+   - Ensure there are no extra spaces or characters
+   - If you regenerated the token, update it everywhere
+
 # Install URL: 
 https://discord.com/oauth2/authorize?client_id=1330684676679143476
 
