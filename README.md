@@ -83,11 +83,34 @@ Note: This bot assumes another bot handles count validation and rule enforcement
 
 ## Database
 
-The bot uses SQLite to store:
-- Server configurations
-- Count tracking
-- Reward information
-- Goal achievements
+The bot supports both SQLite (for development) and PostgreSQL (for production) databases:
+
+### **Database Configuration**
+
+**For Development (SQLite):**
+```env
+DATABASE_TYPE=sqlite
+DB_PATH=./database.db
+```
+
+**For Production (PostgreSQL):**
+```env
+DATABASE_TYPE=postgresql
+DATABASE_URL=postgresql://username:password@hostname:port/database
+```
+
+### **Database Data Stored**
+- Server configurations (count channels, current counts)
+- Count tracking and last counter information
+- Reward information and provider details
+- Goal achievements and notifications
+
+### **Environment Variables**
+- `DATABASE_TYPE`: Set to `sqlite` or `postgresql`
+- `DB_PATH`: Path to SQLite database file (only for SQLite)
+- `DATABASE_URL`: PostgreSQL connection string (only for PostgreSQL)
+
+The bot automatically creates all necessary tables on startup and handles database differences between SQLite and PostgreSQL transparently.
 
 ## Privacy & Data Management
 
@@ -280,15 +303,25 @@ https://discord.com/oauth2/authorize?client_id=1330684676679143476&permissions=2
 
 #### **Database Migration from SQLite:**
 
-If you want to use a cloud database instead of SQLite:
+**The bot now supports both SQLite and PostgreSQL automatically!**
 
-1. **For PostgreSQL (Railway/Supabase):**
-   - Update your database.js to use `pg` instead of `sqlite3`
-   - Modify connection strings
+To switch to PostgreSQL for production:
 
-2. **For MySQL (PlanetScale):**
-   - Update to use `mysql2` package
-   - Adjust queries for MySQL syntax
+1. **Set up PostgreSQL database:**
+   - **Railway**: Creates PostgreSQL automatically when you deploy
+   - **Supabase**: Sign up and create a new project
+   - **PlanetScale**: Create a new database (MySQL)
+   - **Heroku**: Add the Heroku Postgres add-on
+
+2. **Update environment variables:**
+   ```env
+   DATABASE_TYPE=postgresql
+   DATABASE_URL=postgresql://username:password@hostname:port/database
+   ```
+
+3. **Deploy:** The bot will automatically create all tables and handle differences between SQLite and PostgreSQL.
+
+**No code changes needed!** The bot automatically detects the database type and adapts accordingly.
 
 3. **For MongoDB (Atlas):**
    - Switch to `mongoose` package

@@ -1,8 +1,39 @@
 const sqlite3 = require('sqlite3').verbose();
+const { Pool } = require('pg');
 const path = require('path');
 
 class Database {
-    constructor(dbPath = process.env.DB_PATH || path.join(__dirname, 'database.db')) {
+    constructor() {
+        this.dbType = process.env.DATABASE_TYPE || 'sqlite';
+        
+        if (this.dbType === 'postgresql') {
+            this.initPostgreSQL();
+        } else {
+            this.initSQLite();
+        }
+    }
+
+    initPostgreSQL() {
+        console.log('Initializing PostgreSQL connection...');
+        
+        this.pool = new Pool({
+            connectionString: process.env.DATABASE_URL,
+            ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
+        });
+
+        this.pool.on('error', (err) => {
+            console.error('PostgreSQL pool error:', err);
+        });
+
+        console.log('PostgreSQL pool created');
+        this.initializeTables();
+    }
+
+    initSQLite() {
+        console.log('Initializing SQLite connection...');
+        
+        const dbPath = process.env.DB_PATH || path.join(__dirname, 'database.db');
+        
         // Ensure the database directory exists
         const dbDir = path.dirname(dbPath);
         if (!require('fs').existsSync(dbDir)) {
@@ -11,7 +42,7 @@ class Database {
         
         this.db = new sqlite3.Database(dbPath, (err) => {
             if (err) {
-                console.error('Error opening database:', err);
+                console.error('Error opening SQLite database:', err);
             } else {
                 console.log('Connected to SQLite database at:', dbPath);
                 this.initializeTables();
@@ -20,6 +51,53 @@ class Database {
     }
 
     initializeTables() {
+        if (this.dbType === 'postgresql') {
+            this.initializePostgreSQLTables();
+        } else {
+            this.initializeSQLiteTables();
+        }
+    }
+
+    async initializePostgreSQLTables() {
+        const queries = [
+            `CREATE TABLE IF NOT EXISTS servers (
+                guild_id TEXT PRIMARY KEY,
+                count_channel_id TEXT,
+                current_count INTEGER DEFAULT 0,
+                last_counter_id TEXT,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )`,
+            `CREATE TABLE IF NOT EXISTS rewards (
+                id SERIAL PRIMARY KEY,
+                guild_id TEXT,
+                goal INTEGER,
+                description TEXT,
+                provider_id TEXT,
+                provider_username TEXT,
+                claimed BOOLEAN DEFAULT FALSE,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE(guild_id, goal)
+            )`,
+            `CREATE TABLE IF NOT EXISTS achievements (
+                id SERIAL PRIMARY KEY,
+                guild_id TEXT,
+                goal INTEGER,
+                achieved_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                notified BOOLEAN DEFAULT FALSE
+            )`
+        ];
+
+        try {
+            for (const query of queries) {
+                await this.pool.query(query);
+            }
+            console.log('PostgreSQL tables initialized successfully');
+        } catch (error) {
+            console.error('Error initializing PostgreSQL tables:', error);
+        }
+    }
+
+    initializeSQLiteTables() {
         const queries = [
             `CREATE TABLE IF NOT EXISTS servers (
                 guild_id TEXT PRIMARY KEY,
@@ -37,7 +115,6 @@ class Database {
                 provider_username TEXT,
                 claimed BOOLEAN DEFAULT FALSE,
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (guild_id) REFERENCES servers (guild_id),
                 UNIQUE(guild_id, goal)
             )`,
             `CREATE TABLE IF NOT EXISTS achievements (
@@ -45,15 +122,16 @@ class Database {
                 guild_id TEXT,
                 goal INTEGER,
                 achieved_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                notified BOOLEAN DEFAULT FALSE,
-                FOREIGN KEY (guild_id) REFERENCES servers (guild_id)
+                notified BOOLEAN DEFAULT FALSE
             )`
         ];
 
         queries.forEach(query => {
             this.db.run(query, (err) => {
                 if (err) {
-                    console.error('Error creating table:', err);
+                    console.error('Error creating SQLite table:', err);
+                } else {
+                    console.log('SQLite table created/verified');
                 }
             });
         });

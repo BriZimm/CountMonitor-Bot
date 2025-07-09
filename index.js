@@ -2,7 +2,7 @@ require('dotenv').config();
 const { Client, GatewayIntentBits, Collection, REST, Routes, EmbedBuilder } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
-const Database = require('./database');
+const Database = require('./database-new');
 
 // Start web server for static website
 require('./web-server');
