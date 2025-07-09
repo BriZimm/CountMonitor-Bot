@@ -48,15 +48,31 @@ async function registerCommands() {
 
     try {
         console.log('Started refreshing application (/) commands.');
+        console.log(`Registering ${commands.length} commands:`, commands.map(c => c.name).join(', '));
 
+        // Register commands globally
         await rest.put(
             Routes.applicationCommands(process.env.CLIENT_ID),
             { body: commands }
         );
 
-        console.log('Successfully reloaded application (/) commands.');
+        console.log('Successfully reloaded global application (/) commands.');
+        
+        // Also register to each guild for faster updates during development
+        for (const guild of client.guilds.cache.values()) {
+            try {
+                await rest.put(
+                    Routes.applicationGuildCommands(process.env.CLIENT_ID, guild.id),
+                    { body: commands }
+                );
+                console.log(`Registered commands for guild: ${guild.name} (${guild.id})`);
+            } catch (error) {
+                console.error(`Failed to register commands for guild ${guild.name}:`, error);
+            }
+        }
+        
     } catch (error) {
-        console.error(error);
+        console.error('Error registering commands:', error);
     }
 }
 
