@@ -6,9 +6,11 @@ class Database {
     constructor() {
         this.dbType = process.env.DATABASE_TYPE || 'sqlite';
         
-        if (this.dbType === 'postgresql') {
+        if (this.dbType === 'postgresql' && process.env.DATABASE_URL) {
             this.initPostgreSQL();
         } else {
+            // Default to SQLite if PostgreSQL not properly configured
+            this.dbType = 'sqlite';
             this.initSQLite();
         }
     }
