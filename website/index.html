@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Count Monitor Bot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #f0f0f0;
+            margin-bottom: 2rem;
+        }
+
+        .invite-btn {
+            display: inline-block;
+            background: #5865f2;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .invite-btn:hover {
+            background: #4752c4;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            color: #5865f2;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .feature-card p {
+            line-height: 1.6;
+            color: #666;
+        }
+
+        .commands {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+        }
+
+        .commands h2 {
+            color: #5865f2;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        .command-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .command-item {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #5865f2;
+        }
+
+        .command-item code {
+            font-weight: bold;
+            color: #5865f2;
+        }
+
+        .setup-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+        }
+
+        .setup-section h2 {
+            color: #5865f2;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        .setup-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .setup-step {
+            text-align: center;
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: #5865f2;
+            color: white;
+            border-radius: 50%;
+            line-height: 40px;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 3rem;
+        }
+
+        .footer a {
+            color: #f0f0f0;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Count Monitor Bot</h1>
+            <p>The ultimate Discord bot for managing counting channels and rewarding milestones</p>
+            <a href="https://discord.com/oauth2/authorize?client_id=1330684676679143476&permissions=277025459264&integration_type=1&scope=applications.commands+bot" class="invite-btn">
+                Add to Discord
+            </a>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">🔢</div>
+                <h3>Count Tracking</h3>
+                <p>Automatically monitors your counting channel and tracks progress. Works alongside your existing counting bot for validation.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🎁</div>
+                <h3>Reward System</h3>
+                <p>Let users create rewards for specific count goals. One reward per goal ensures fair distribution and excitement.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📢</div>
+                <h3>Smart Notifications</h3>
+                <p>Automatically notifies reward providers when their goals are reached. No more manual tracking needed!</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🎉</div>
+                <h3>Milestone Celebrations</h3>
+                <p>Celebrates every 100-count milestone with special messages to keep your community engaged.</p>
+            </div>
+        </div>
+
+        <div class="commands">
+            <h2>📋 Commands</h2>
+            <div class="command-list">
+                <div class="command-item">
+                    <code>/set-count-channel</code>
+                    <p>Set the channel to monitor for counting (Admin only)</p>
+                </div>
+                <div class="command-item">
+                    <code>/add-reward</code>
+                    <p>Add a reward for a specific count goal</p>
+                </div>
+                <div class="command-item">
+                    <code>/list-rewards</code>
+                    <p>View all current rewards and their status</p>
+                </div>
+                <div class="command-item">
+                    <code>/current-count</code>
+                    <p>Show the current count and upcoming rewards</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="setup-section">
+            <h2>🚀 Quick Setup</h2>
+            <div class="setup-steps">
+                <div class="setup-step">
+                    <div class="step-number">1</div>
+                    <h3>Add Bot</h3>
+                    <p>Click the "Add to Discord" button above</p>
+                </div>
+                <div class="setup-step">
+                    <div class="step-number">2</div>
+                    <h3>Set Channel</h3>
+                    <p>Use <code>/set-count-channel</code> to configure your counting channel</p>
+                </div>
+                <div class="setup-step">
+                    <div class="step-number">3</div>
+                    <h3>Add Rewards</h3>
+                    <p>Let users create rewards with <code>/add-reward</code></p>
+                </div>
+                <div class="setup-step">
+                    <div class="step-number">4</div>
+                    <h3>Start Counting</h3>
+                    <p>Watch as the bot tracks progress and celebrates milestones!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Built with ❤️ for Discord communities</p>
+            <p><a href="https://github.com/your-username/CountMonitor-Bot">View on GitHub</a></p>
+        </div>
+    </div>
+</body>
+</html>
