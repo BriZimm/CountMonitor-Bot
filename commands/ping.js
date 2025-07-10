@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('ping')
+        .setName('cr-ping')
         .setDescription('Test command to verify bot is working'),
     
     async execute(interaction) {
