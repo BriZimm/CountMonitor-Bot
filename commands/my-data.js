@@ -36,7 +36,7 @@ module.exports = {
                         inline: false 
                     }
                 )
-                .setFooter({ text: 'Use /remove-me to permanently delete this data' })
+                .setFooter({ text: 'Use /cr-remove-me to permanently delete this data' })
                 .setTimestamp();
             
             await interaction.editReply({ embeds: [dataEmbed] });

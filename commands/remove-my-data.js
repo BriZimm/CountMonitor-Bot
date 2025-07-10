@@ -29,7 +29,7 @@ module.exports = {
                         inline: false 
                     }
                 )
-                .setFooter({ text: 'Use /remove-me confirm:true to proceed' });
+                .setFooter({ text: 'Use /cr-remove-me confirm:true to proceed' });
             
             await interaction.reply({ embeds: [warningEmbed], ephemeral: true });
             return;
@@ -60,7 +60,7 @@ module.exports = {
                         inline: false 
                     }
                 )
-                .setFooter({ text: 'Thank you for using Count Monitor Bot!' })
+                .setFooter({ text: 'Thank you for using Count Rewards Bot!' })
                 .setTimestamp();
             
             await interaction.editReply({ embeds: [successEmbed] });

@@ -1,6 +1,6 @@
 # Website Deployment
 
-This folder contains a simple website for your Count Monitor Bot that you can host for free.
+This folder contains a simple website for your Count Rewards Bot that you can host for free.
 
 ## Quick Deploy Options:
 

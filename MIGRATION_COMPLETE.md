@@ -2,7 +2,7 @@
 
 ## ✅ Migration Complete!
 
-Your Count Monitor Bot has been successfully migrated to support persistent data storage across deploys.
+Your Count Rewards Bot has been successfully migrated to support persistent data storage across deploys.
 
 ## What Changed
 

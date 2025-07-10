@@ -9,7 +9,7 @@ module.exports = {
                         interaction.member.permissions.has(PermissionFlagsBits.Administrator);
 
         const embed = new EmbedBuilder()
-            .setTitle('🤖 Count Monitor Bot Help')
+            .setTitle('🤖 Count Rewards Bot Help')
             .setColor(0x5865f2)
             .setDescription('Here are the available commands:')
             .addFields(

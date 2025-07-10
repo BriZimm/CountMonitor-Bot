@@ -1,4 +1,4 @@
-# Count Monitor Bot
+# Count Rewards Bot
 
 A Discord bot that monitors count channels and manages rewards based on counting milestones.
 

@@ -1,6 +1,6 @@
 # Railway Deployment Guide
 
-This guide shows how to deploy the Count Monitor Bot to Railway with PostgreSQL for persistent data storage.
+This guide shows how to deploy the Count Rewards Bot to Railway with PostgreSQL for persistent data storage.
 
 ## Prerequisites
 
