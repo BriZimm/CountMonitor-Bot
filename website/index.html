@@ -62,10 +62,12 @@
             gap: 0.5rem;
         }
 
-        .nav-logo::before {
-            content: '🤖';
-            font-size: 1.8rem;
-            filter: drop-shadow(0 0 10px rgba(88, 101, 242, 0.5));
+        .nav-logo img {
+            height: 2.2rem;
+            vertical-align: middle;
+            margin-right: 0.5rem;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #fca32680;
         }
 
         .nav-links {
@@ -280,7 +282,7 @@
         }
 
         .commands h2 {
-            color: #ffffff;
+            color: #fca326;
             margin-bottom: 1.5rem;
             text-align: center;
             font-size: 2rem;
@@ -460,7 +462,9 @@
 <body>
     <div class="container">
         <nav class="nav">
-            <a href="/" class="nav-logo">🔢 Count Rewards Bot</a>
+            <a href="/" class="nav-logo">
+                <img src="assets/count-rewards-bot-logo.png" alt="Count Rewards Bot Logo" style="height:2.2rem;vertical-align:middle;margin-right:0.5rem;border-radius:50%;box-shadow:0 0 10px #fca32680;"> Count Rewards Bot
+            </a>
             <div class="nav-links">
                 <a href="/tos.html">Terms of Service</a>
                 <a href="/privacy.html">Privacy Policy</a>
@@ -470,53 +474,49 @@
 
         <div class="header">
             <div class="bot-avatar">
-                <div class="avatar-circle">
-                    <span class="bot-icon">🤖</span>
+                <div class="avatar-circle" style="background: linear-gradient(135deg, #5865f2 60%, #fca326 100%); box-shadow: 0 0 40px #fca32680;">
+                    <img src="assets/count-rewards-bot-logo.png" alt="Bot Icon" style="width:90px;height:90px;border-radius:50%;box-shadow:0 0 20px #fca32680;">
                 </div>
                 <div class="status-indicator"></div>
             </div>
-            <h1>🎯 Count Rewards Bot</h1>
-            <p>The ultimate Discord bot for managing counting channels and rewarding milestones</p>
-            <a href="https://discord.com/oauth2/authorize?client_id=1330684676679143476&permissions=277025467456&integration_type=0&scope=bot+applications.commands" class="invite-btn">
+            <h1 style="color:#fca326;text-shadow:2px 2px 8px #5865f2,0 0 20px #fca32680;">🎯 Count Rewards Bot</h1>
+            <p style="color:#fca326;font-weight:bold;text-shadow:0 0 10px #5865f2;">The ultimate Discord bot for managing counting channels and rewarding milestones</p>
+            <a href="https://discord.com/oauth2/authorize?client_id=1330684676679143476&permissions=277025467456&integration_type=0&scope=bot+applications.commands" class="invite-btn" style="background:linear-gradient(90deg,#5865f2 60%,#fca326 100%);box-shadow:0 8px 25px #fca32680;">
                 <span class="btn-icon">🚀</span>
                 Add to Discord
             </a>
         </div>
 
         <div class="features">
-            <div class="feature-card">
-                <div class="feature-icon">🔢</div>
+            <div class="feature-card" style="border-top:4px solid #fca326;">
+                <div class="feature-icon" style="color:#fca326;">🔢</div>
                 <h3>Count Tracking</h3>
                 <p>Automatically monitors your counting channel and tracks progress. Works alongside your existing counting bot for validation.</p>
             </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">🎁</div>
+            <div class="feature-card" style="border-top:4px solid #5865f2;">
+                <div class="feature-icon" style="color:#5865f2;">🎁</div>
                 <h3>Reward System</h3>
                 <p>Let users create rewards for specific count goals. One reward per goal ensures fair distribution and excitement.</p>
             </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">📢</div>
+            <div class="feature-card" style="border-top:4px solid #57f287;">
+                <div class="feature-icon" style="color:#57f287;">📢</div>
                 <h3>Smart Notifications</h3>
                 <p>Automatically notifies reward providers when their goals are reached. No more manual tracking needed!</p>
             </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">🎉</div>
+            <div class="feature-card" style="border-top:4px solid #fca326;">
+                <div class="feature-icon" style="color:#fca326;">🎉</div>
                 <h3>Milestone Celebrations</h3>
                 <p>Celebrates every 100-count milestone with special messages to keep your community engaged.</p>
             </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">🔒</div>
+            <div class="feature-card" style="border-top:4px solid #5865f2;">
+                <div class="feature-icon" style="color:#5865f2;">🔒</div>
                 <h3>Privacy First</h3>
-                <p>Full control over your data with /cr-my-data to view and /cr-remove-data to delete your personal information instantly.</p>
+                <p>Full control over your data with <code>/cr-me</code> to view and <code>/cr-remove-me</code> to delete your personal information instantly.</p>
             </div>
         </div>
 
         <div class="commands">
-            <h2>📋 Commands</h2>
+            <h2 style="color:#fca326;text-shadow:0 0 20px #5865f2;">📋 Commands</h2>
             <div class="command-list">
                 <div class="command-item">
                     <code>/cr-set-channel</code>
@@ -535,11 +535,11 @@
                     <p>Show the current count and upcoming rewards</p>
                 </div>
                 <div class="command-item">
-                    <code>/cr-my-data</code>
+                    <code>/cr-me</code>
                     <p>View what personal data the bot has about you</p>
                 </div>
                 <div class="command-item">
-                    <code>/cr-remove-data</code>
+                    <code>/cr-remove-me</code>
                     <p>Permanently delete your personal data</p>
                 </div>
             </div>
@@ -572,7 +572,7 @@
         </div>
 
         <div class="footer">
-            <p>Built with ❤️ for Discord communities by @rocketraider</p>
+            <p style="color:#fca326;text-shadow:0 0 10px #5865f2;">Built with ❤️ for Discord communities by @rocketraider</p>
             <div class="footer-links">
                 <a href="/tos.html">Terms of Service</a>
                 <span>•</span>
