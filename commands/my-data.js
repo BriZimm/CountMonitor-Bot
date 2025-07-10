@@ -2,7 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('cr-my-data')
+        .setName('cr-me')
         .setDescription('View what personal data the bot has stored about you'),
     async execute(interaction) {
         try {
@@ -36,7 +36,7 @@ module.exports = {
                         inline: false 
                     }
                 )
-                .setFooter({ text: 'Use /remove-my-data to permanently delete this data' })
+                .setFooter({ text: 'Use /remove-me to permanently delete this data' })
                 .setTimestamp();
             
             await interaction.editReply({ embeds: [dataEmbed] });

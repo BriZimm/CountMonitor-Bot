@@ -2,7 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('cr-remove-data')
+        .setName('cr-remove-me')
         .setDescription('Remove all your personal data from the bot\'s database')
         .addBooleanOption(option =>
             option.setName('confirm')
@@ -29,7 +29,7 @@ module.exports = {
                         inline: false 
                     }
                 )
-                .setFooter({ text: 'Use /remove-my-data confirm:true to proceed' });
+                .setFooter({ text: 'Use /remove-me confirm:true to proceed' });
             
             await interaction.reply({ embeds: [warningEmbed], ephemeral: true });
             return;

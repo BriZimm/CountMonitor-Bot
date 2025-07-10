@@ -62,8 +62,8 @@ A Discord bot that monitors count channels and manages rewards based on counting
 - `/cr-list` - List all current rewards and their goals
 
 ### Privacy & Data Management
-- `/cr-my-data` - View what personal data the bot has stored about you
-- `/cr-remove-data` - Permanently delete all your personal data from the bot
+- `/cr-me` - View what personal data the bot has stored about you
+- `/cr-remove-me` - Permanently delete all your personal data from the bot
 
 ### Utility
 - `/cr-ping` - Check if the bot is responsive
@@ -117,8 +117,8 @@ The bot automatically creates all necessary tables on startup and handles databa
 The bot includes comprehensive privacy controls:
 
 ### **User Data Rights**
-- **View your data:** Use `/my-data` to see all personal information stored
-- **Delete your data:** Use `/remove-my-data` to permanently remove all personal data
+- **View your data:** Use `/cr-me` to see all personal information stored
+- **Delete your data:** Use `/cr-remove-me` to permanently remove all personal data
 - **Self-service:** No admin approval required - you control your own data
 
 ### **What Data is Stored**
