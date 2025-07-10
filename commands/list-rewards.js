@@ -2,7 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('list-rewards')
+        .setName('cr-list')
         .setDescription('List all current rewards and their goals'),
     
     async execute(interaction) {

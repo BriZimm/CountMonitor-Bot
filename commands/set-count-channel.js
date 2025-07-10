@@ -2,7 +2,7 @@ const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('set-count-channel')
+        .setName('cr-set-channel')
         .setDescription('Set the channel to monitor for counting')
         .addChannelOption(option =>
             option.setName('channel')
@@ -26,9 +26,34 @@ module.exports = {
             // Set the count channel
             await interaction.client.db.setCountChannel(guildId, channel.id);
             console.log('Count channel set in database');
-            
+
+            // Fetch latest messages and find the most recent valid count
+            let detectedCount = 0;
+            try {
+                const messages = await channel.messages.fetch({ limit: 50 });
+                for (const msg of messages.values()) {
+                    if (msg.author.bot) continue;
+                    const num = parseInt(msg.content.trim(), 10);
+                    if (!isNaN(num)) {
+                        detectedCount = num;
+                        break;
+                    }
+                }
+                if (detectedCount > 0) {
+                    await interaction.client.db.updateCount(guildId, detectedCount, null);
+                    console.log(`Detected last count in channel: ${detectedCount}`);
+                } else {
+                    console.log('No valid count found in recent messages.');
+                }
+            } catch (err) {
+                console.error('Error fetching messages for count detection:', err);
+            }
+
             await interaction.reply({
-                content: `✅ Count channel set to ${channel}! The bot will now monitor this channel for counting.`,
+                content: `✅ Count channel set to ${channel}! The bot will now monitor this channel for counting.\n` +
+                    (detectedCount > 0
+                        ? `Last detected count in this channel: **${detectedCount}**.`
+                        : 'No valid count found in the last 50 messages.'),
                 ephemeral: true
             });
             console.log('Reply sent successfully');

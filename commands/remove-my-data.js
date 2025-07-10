@@ -2,7 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('remove-my-data')
+        .setName('cr-remove-data')
         .setDescription('Remove all your personal data from the bot\'s database')
         .addBooleanOption(option =>
             option.setName('confirm')

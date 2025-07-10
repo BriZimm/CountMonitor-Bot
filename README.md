@@ -54,19 +54,19 @@ A Discord bot that monitors count channels and manages rewards based on counting
 ## Commands
 
 ### Server Management
-- `/set-count-channel <channel>` - Set the count channel to monitor (Admin only)
-- `/current_count` - Show the current count
+- `/cr-set-channel <channel>` - Set the count channel to monitor (Admin only)
+- `/cr-current` - Show the current count
 
 ### Rewards
-- `/add-reward <goal> <description>` - Add a reward for a specific count goal
-- `/list-rewards` - List all current rewards and their goals
+- `/cr-add <goal> <description>` - Add a reward for a specific count goal
+- `/cr-list` - List all current rewards and their goals
 
 ### Privacy & Data Management
-- `/my-data` - View what personal data the bot has stored about you
-- `/remove-my-data` - Permanently delete all your personal data from the bot
+- `/cr-my-data` - View what personal data the bot has stored about you
+- `/cr-remove-data` - Permanently delete all your personal data from the bot
 
 ### Utility
-- `/ping` - Check if the bot is responsive
+- `/cr-ping` - Check if the bot is responsive
 - `/refresh-commands` - Refresh slash commands (if needed)
 
 ## Permissions Required

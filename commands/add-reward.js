@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('add-reward')
+        .setName('cr-add')
         .setDescription('Add a reward for reaching a specific count goal')
         .addIntegerOption(option =>
             option.setName('goal')

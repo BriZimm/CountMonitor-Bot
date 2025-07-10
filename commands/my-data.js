@@ -2,7 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('my-data')
+        .setName('cr-my-data')
         .setDescription('View what personal data the bot has stored about you'),
     async execute(interaction) {
         try {

@@ -2,7 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('current-count')
+        .setName('cr-current')
         .setDescription('Show the current count and channel information'),
     
     async execute(interaction) {
@@ -22,21 +22,42 @@ module.exports = {
             const channel = interaction.guild.channels.cache.get(server.count_channel_id);
             const channelMention = channel ? `<#${server.count_channel_id}>` : 'Channel not found';
             
+            let currentCount = server.current_count;
+            let lastCounterId = server.last_counter_id;
+            // If current_count is missing or zero, scan the channel for the latest valid count
+            if ((!currentCount || currentCount === 0) && channel) {
+                try {
+                    const messages = await channel.messages.fetch({ limit: 50 });
+                    for (const msg of messages.values()) {
+                        if (msg.author.bot) continue;
+                        const num = parseInt(msg.content.trim(), 10);
+                        if (!isNaN(num)) {
+                            currentCount = num;
+                            lastCounterId = msg.author.id;
+                            await interaction.client.db.updateCount(guildId, currentCount, lastCounterId);
+                            break;
+                        }
+                    }
+                } catch (err) {
+                    console.error('Error fetching messages for count detection:', err);
+                }
+            }
+
             const embed = new EmbedBuilder()
                 .setTitle('📊 Current Count Status')
                 .setColor(0x00AE86)
                 .addFields(
                     { name: 'Count Channel', value: channelMention, inline: true },
-                    { name: 'Current Count', value: server.current_count.toString(), inline: true }
+                    { name: 'Current Count', value: currentCount ? currentCount.toString() : 'N/A', inline: true }
                 )
                 .setTimestamp();
-            
-            if (server.last_counter_id) {
-                const lastCounter = await interaction.guild.members.fetch(server.last_counter_id).catch(() => null);
+
+            if (lastCounterId) {
+                const lastCounter = await interaction.guild.members.fetch(lastCounterId).catch(() => null);
                 if (lastCounter) {
                     embed.addFields({
                         name: 'Last Counter',
-                        value: `<@${server.last_counter_id}>`,
+                        value: `<@${lastCounterId}>`,
                         inline: true
                     });
                 }

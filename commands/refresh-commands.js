@@ -2,7 +2,7 @@ const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('refresh-commands')
+        .setName('cr-refresh-commands')
         .setDescription('Refresh slash commands (Owner only)')
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     
