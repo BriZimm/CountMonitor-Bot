@@ -20,7 +20,7 @@ module.exports = {
                 { name: '/cr-remove-me', value: 'Permanently delete all your personal data from the bot', inline: false },
                 { name: '/cr-ping', value: 'Check if the bot is responsive', inline: false },
                 { name: '/cr-help', value: 'Show this help message', inline: false },
-                { name: '/cr-approval <mod_usernames> <approval_channel>', value: 'Set up who should approve reward requests (Admin only)', inline: false },
+                { name: '/cr-approval <mod_usernames> OR <approval_channel>', value: 'Set up who should approve reward requests (Admin only)', inline: false },
                 { name: '/cr-approve <goal> <action>', value: 'Approve or deny pending reward requests (Staff only)', inline: false },
                 { name: '/cr-set-channel <channel>', value: 'Set the count channel to monitor (Admin only)', inline: false },
                 { name: '/cr-refresh-commands', value: 'Refresh slash commands for this server (Admin only)', inline: false }
