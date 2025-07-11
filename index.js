@@ -2,7 +2,7 @@
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
-const { Client, GatewayIntentBits, Collection, REST, Routes, EmbedBuilder } = require('discord.js');
+const { Client, GatewayIntentBits, Collection, REST, Routes, EmbedBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder: ModalActionRowBuilder } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
 const Database = require('./database-new');
@@ -99,6 +99,102 @@ client.once('ready', () => {
 
 // Handle slash commands
 client.on('interactionCreate', async interaction => {
+    // Handle button interactions for reward approval/deny
+    if (interaction.isButton()) {
+        const { customId, guild, user } = interaction;
+        if (!guild) return;
+        // Only allow staff (ManageGuild) to use these buttons
+        const member = await guild.members.fetch(user.id);
+        if (!member.permissions.has('ManageGuild')) {
+            await interaction.reply({ content: '❌ You do not have permission to approve/deny rewards.', ephemeral: true });
+            return;
+        }
+        // Parse button customId
+        const approveMatch = customId.match(/^approve_reward_(.+)_(\d+)$/);
+        const denyMatch = customId.match(/^deny_reward_(.+)_(\d+)$/);
+        let action = null, guildId = null, goal = null;
+        if (approveMatch) {
+            action = 'approve';
+            guildId = approveMatch[1];
+            goal = parseInt(approveMatch[2]);
+        } else if (denyMatch) {
+            action = 'deny';
+            guildId = denyMatch[1];
+            goal = parseInt(denyMatch[2]);
+        }
+        if (action && guildId && goal) {
+            // Find the pending reward
+            const rewards = await client.db.getRewards(guildId);
+            const reward = rewards.find(r => r.goal === goal && r.status === 'pending');
+            if (!reward) {
+                await interaction.reply({ content: '❌ No pending reward request found for that goal.', ephemeral: true });
+                return;
+            }
+            if (action === 'approve') {
+                await client.db.query(
+                    'UPDATE rewards SET status = $1 WHERE guild_id = $2 AND goal = $3',
+                    ['approved', guildId, goal]
+                );
+                await interaction.reply({
+                    content: `✅ Reward request for goal ${goal} has been approved!`,
+                    ephemeral: false
+                });
+                try {
+                    const provider = await client.users.fetch(reward.provider_id);
+                    if (provider) {
+                        await provider.send(`Your reward request for goal ${goal} in ${guild.name} has been approved!`);
+                    }
+                } catch (e) { /* ignore DM errors */ }
+            } else if (action === 'deny') {
+                // Show modal for denial reason
+                const modal = new ModalBuilder()
+                    .setCustomId(`deny_reason_modal_${guildId}_${goal}`)
+                    .setTitle('Deny Reward Request')
+                    .addComponents(
+                        new ModalActionRowBuilder().addComponents(
+                            new TextInputBuilder()
+                                .setCustomId('deny_reason')
+                                .setLabel('Reason for denial')
+                                .setStyle(TextInputStyle.Paragraph)
+                                .setRequired(true)
+                        )
+                    );
+                await interaction.showModal(modal);
+            }
+            return;
+        }
+    }
+    // Handle modal submit for denial reason
+    if (interaction.isModalSubmit()) {
+        const modalMatch = interaction.customId.match(/^deny_reason_modal_(.+)_(\d+)$/);
+        if (modalMatch) {
+            const guildId = modalMatch[1];
+            const goal = parseInt(modalMatch[2]);
+            const reason = interaction.fields.getTextInputValue('deny_reason');
+            // Update status and store reason (optionally add a denial_reason column, or just notify)
+            await client.db.query(
+                'UPDATE rewards SET status = $1 WHERE guild_id = $2 AND goal = $3',
+                ['denied', guildId, goal]
+            );
+            await interaction.reply({
+                content: `❌ Reward request for goal ${goal} has been denied. Reason: ${reason}`,
+                ephemeral: false
+            });
+            // Notify the provider
+            const rewards = await client.db.getRewards(guildId);
+            const reward = rewards.find(r => r.goal === goal);
+            if (reward) {
+                try {
+                    const provider = await client.users.fetch(reward.provider_id);
+                    if (provider) {
+                        await provider.send(`Your reward request for goal ${goal} in ${interaction.guild.name} has been denied.\nReason: ${reason}`);
+                    }
+                } catch (e) { /* ignore DM errors */ }
+            }
+            return;
+        }
+    }
+
     console.log(`Interaction received: ${interaction.type} - ${interaction.isCommand ? interaction.commandName : 'Not a command'}`);
     
     if (!interaction.isChatInputCommand()) {

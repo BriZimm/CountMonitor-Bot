@@ -9,13 +9,13 @@ module.exports = {
         const guildId = interaction.guild.id;
         
         try {
-            const rewards = await interaction.client.db.getRewards(guildId);
+            const rewards = (await interaction.client.db.getRewards(guildId)).filter(r => r.status === 'approved');
             const server = await interaction.client.db.getServer(guildId);
             const currentCount = server ? server.current_count : 0;
             
             if (rewards.length === 0) {
                 await interaction.reply({
-                    content: '📋 No rewards have been set up yet! Use `/add-reward` to create some.',
+                    content: '📋 No approved rewards have been set up yet! Use `/cr-add` to request one.',
                     ephemeral: true
                 });
                 return;

@@ -77,6 +77,7 @@ class Database {
                 provider_id TEXT,
                 provider_username TEXT,
                 claimed BOOLEAN DEFAULT FALSE,
+                status TEXT DEFAULT 'pending',
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 UNIQUE(guild_id, goal)
             )`,
@@ -86,6 +87,11 @@ class Database {
                 goal INTEGER,
                 achieved_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 notified BOOLEAN DEFAULT FALSE
+            )`,
+            `CREATE TABLE IF NOT EXISTS approval_settings (
+                guild_id TEXT PRIMARY KEY,
+                mod_user_ids TEXT,
+                approval_channel_id TEXT
             )`
         ];
 
@@ -116,6 +122,7 @@ class Database {
                 provider_id TEXT,
                 provider_username TEXT,
                 claimed BOOLEAN DEFAULT FALSE,
+                status TEXT DEFAULT 'pending',
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                 UNIQUE(guild_id, goal)
             )`,
@@ -125,6 +132,11 @@ class Database {
                 goal INTEGER,
                 achieved_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                 notified BOOLEAN DEFAULT FALSE
+            )`,
+            `CREATE TABLE IF NOT EXISTS approval_settings (
+                guild_id TEXT PRIMARY KEY,
+                mod_user_ids TEXT,
+                approval_channel_id TEXT
             )`
         ];
 
@@ -302,6 +314,32 @@ class Database {
             return result.rows;
         } catch (error) {
             console.error('Error getting achievements:', error);
+            throw error;
+        }
+    }
+
+    // Approval settings management
+    async setApprovalSettings(guildId, modUserIds, approvalChannelId) {
+        try {
+            const result = await this.query(
+                'INSERT INTO approval_settings (guild_id, mod_user_ids, approval_channel_id) VALUES ($1, $2, $3) ON CONFLICT (guild_id) DO UPDATE SET mod_user_ids = $2, approval_channel_id = $3',
+                [guildId, modUserIds.join(','), approvalChannelId]
+            );
+            return result.insertId || result.rowCount;
+        } catch (error) {
+            console.error('Error setting approval settings:', error);
+            throw error;
+        }
+    }
+    async getApprovalSettings(guildId) {
+        try {
+            const result = await this.query(
+                'SELECT * FROM approval_settings WHERE guild_id = $1',
+                [guildId]
+            );
+            return result.rows && result.rows[0] ? result.rows[0] : null;
+        } catch (error) {
+            console.error('Error getting approval settings:', error);
             throw error;
         }
     }
