@@ -5,8 +5,8 @@ module.exports = {
         .setName('cr-approval')
         .setDescription('Set up who should approve reward requests')
         .addStringOption(option =>
-            option.setName('mod_user_ids')
-                .setDescription('Comma-separated user IDs of mods to notify (leave blank if using a channel)')
+            option.setName('mod_usernames')
+                .setDescription('Comma-separated Discord usernames of mods to notify (e.g. user#1234,user2#5678)')
                 .setRequired(false))
         .addChannelOption(option =>
             option.setName('approval_channel')
@@ -16,22 +16,33 @@ module.exports = {
 
     async execute(interaction) {
         const guildId = interaction.guild.id;
-        const modUserIdsRaw = interaction.options.getString('mod_user_ids');
+        const modUsernamesRaw = interaction.options.getString('mod_usernames');
         const approvalChannel = interaction.options.getChannel('approval_channel');
-        const modUserIds = modUserIdsRaw ? modUserIdsRaw.split(',').map(id => id.trim()).filter(Boolean) : [];
+        let modUserIds = [];
+        let notFound = [];
+        if (modUsernamesRaw) {
+            const usernames = modUsernamesRaw.split(',').map(u => u.trim()).filter(Boolean);
+            for (const username of usernames) {
+                // Try to find user in guild by username#discriminator
+                const member = interaction.guild.members.cache.find(m => `${m.user.username}#${m.user.discriminator}`.toLowerCase() === username.toLowerCase());
+                if (member) {
+                    modUserIds.push(member.user.id);
+                } else {
+                    notFound.push(username);
+                }
+            }
+        }
         const approvalChannelId = approvalChannel ? approvalChannel.id : null;
-
         if (!modUserIds.length && !approvalChannelId) {
             await interaction.reply({
-                content: '❌ You must specify at least one mod user ID or an approval channel.',
+                content: '❌ You must specify at least one mod username or an approval channel.',
                 ephemeral: true
             });
             return;
         }
-
         await interaction.client.db.setApprovalSettings(guildId, modUserIds, approvalChannelId);
         await interaction.reply({
-            content: `✅ Approval settings updated!\n${modUserIds.length ? `Mods: ${modUserIds.join(', ')}` : ''}${modUserIds.length && approvalChannelId ? '\n' : ''}${approvalChannelId ? `Channel: <#${approvalChannelId}>` : ''}`,
+            content: `✅ Approval settings updated!\n${modUserIds.length ? `Mods: ${modUserIds.join(', ')}` : ''}${modUserIds.length && approvalChannelId ? '\n' : ''}${approvalChannelId ? `Channel: <#${approvalChannelId}>` : ''}${notFound.length ? `\n⚠️ Not found: ${notFound.join(', ')}` : ''}`,
             ephemeral: true
         });
     }
