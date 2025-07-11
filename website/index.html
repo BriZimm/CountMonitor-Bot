@@ -289,10 +289,17 @@
             text-shadow: 0 0 20px rgba(88, 101, 242, 0.3);
         }
 
-        .command-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
+        .command-columns {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .command-col {
+            flex: 1 1 250px;
+            min-width: 250px;
+            max-width: 340px;
         }
 
         .command-item {
@@ -302,6 +309,7 @@
             border-left: 4px solid #5865f2;
             transition: all 0.3s ease;
             position: relative;
+            margin-bottom: 1rem;
         }
 
         .command-item:hover {
@@ -507,6 +515,11 @@
                 <h3>Smart Notifications</h3>
                 <p>Automatically notifies reward providers when their goals are reached. No more manual tracking needed!</p>
             </div>
+            <div class="feature-card" style="border-top:4px solid #57f287;">
+                <div class="feature-icon" style="color:#57f287;">✅</div>
+                <h3>Reward Approvals</h3>
+                <p>Staff must approve all new rewards before they appear. This prevents the reward system from being overloaded by an unpoliced reward list and keeps your community's rewards meaningful and fair.</p>
+            </div>
             <div class="feature-card" style="border-top:4px solid #fca326;">
                 <div class="feature-icon" style="color:#fca326;">🎉</div>
                 <h3>Milestone Celebrations</h3>
@@ -521,45 +534,51 @@
 
         <div class="commands">
             <h2 style="color:#fca326;text-shadow:0 0 20px #5865f2;">📋 Commands</h2>
-            <div class="command-list">
-                <h3 style="color:#5865f2;margin-top:1rem;">Admin Commands</h3>
-                <div class="command-item">
-                    <code>/cr-set-channel</code>
-                    <p>Set the channel to monitor for counting (Admin only)</p>
+            <div class="command-columns" style="display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center;">
+                <div class="command-col" style="flex:1 1 250px; min-width:250px; max-width:340px;">
+                    <h3 style="color:#5865f2; margin-bottom:1rem; text-align:center;">Admin Commands</h3>
+                    <div class="command-item">
+                        <code>/cr-set-channel</code>
+                        <p>Set the channel to monitor for counting</p>
+                    </div>
+                    <div class="command-item">
+                        <code>/cr-approval</code>
+                        <p>Set up who should approve reward requests</p>
+                    </div>
+                    <div class="command-item">
+                        <code>/cr-refresh-commands</code>
+                        <p>Refresh slash commands for this server</p>
+                    </div>
                 </div>
-                <div class="command-item">
-                    <code>/cr-approval</code>
-                    <p>Set up who should approve reward requests (Admin only)</p>
+                <div class="command-col" style="flex:1 1 250px; min-width:250px; max-width:340px;">
+                    <h3 style="color:#57f287; margin-bottom:1rem; text-align:center;">Staff Commands</h3>
+                    <div class="command-item">
+                        <code>/cr-approve</code>
+                        <p>Approve or deny pending reward requests</p>
+                    </div>
                 </div>
-                <div class="command-item">
-                    <code>/cr-refresh-commands</code>
-                    <p>Refresh slash commands for this server (Admin only)</p>
-                </div>
-                <h3 style="color:#57f287;margin-top:2rem;">Staff Commands</h3>
-                <div class="command-item">
-                    <code>/cr-approve</code>
-                    <p>Approve or deny pending reward requests (Staff only)</p>
-                </div><br /><br />
-                <h3 style="color:#fca326;margin-top:2rem;">User Commands</h3>
-                <div class="command-item">
-                    <code>/cr-add</code>
-                    <p>Request a reward for a specific count goal (requires staff approval)</p>
-                </div>
-                <div class="command-item">
-                    <code>/cr-list</code>
-                    <p>View all current approved rewards and their status</p>
-                </div>
-                <div class="command-item">
-                    <code>/cr-current</code>
-                    <p>Show the current count and upcoming rewards</p>
-                </div>
-                <div class="command-item">
-                    <code>/cr-me</code>
-                    <p>View what personal data the bot has about you</p>
-                </div>
-                <div class="command-item">
-                    <code>/cr-remove-me</code>
-                    <p>Permanently delete your personal data</p>
+                <div class="command-col" style="flex:1 1 250px; min-width:250px; max-width:340px;">
+                    <h3 style="color:#fca326; margin-bottom:1rem; text-align:center;">User Commands</h3>
+                    <div class="command-item">
+                        <code>/cr-add</code>
+                        <p>Request a reward for a specific count goal</p>
+                    </div>
+                    <div class="command-item">
+                        <code>/cr-list</code>
+                        <p>View all current approved rewards and their status</p>
+                    </div>
+                    <div class="command-item">
+                        <code>/cr-current</code>
+                        <p>Show the current count and upcoming rewards</p>
+                    </div>
+                    <div class="command-item">
+                        <code>/cr-me</code>
+                        <p>View what personal data the bot has about you</p>
+                    </div>
+                    <div class="command-item">
+                        <code>/cr-remove-me</code>
+                        <p>Permanently delete your personal data</p>
+                    </div>
                 </div>
             </div>
         </div>
