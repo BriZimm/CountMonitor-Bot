@@ -291,15 +291,15 @@
 
         .command-columns {
             display: flex;
-            gap: 2rem;
+            gap: 3rem;
             flex-wrap: wrap;
             justify-content: center;
         }
 
         .command-col {
-            flex: 1 1 250px;
-            min-width: 250px;
-            max-width: 340px;
+            flex: 2 1 400px;
+            min-width: 340px;
+            max-width: 520px;
         }
 
         .command-item {
@@ -349,12 +349,16 @@
 
         .setup-steps {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(5, 1fr);
             gap: 1.5rem;
         }
 
         .setup-step {
-            text-align: center;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
             transition: transform 0.3s ease;
         }
 
@@ -534,30 +538,27 @@
 
         <div class="commands">
             <h2 style="color:#fca326;text-shadow:0 0 20px #5865f2;">📋 Commands</h2>
-            <div class="command-columns" style="display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center;">
-                <div class="command-col" style="flex:1 1 250px; min-width:250px; max-width:340px;">
-                    <h3 style="color:#5865f2; margin-bottom:1rem; text-align:center;">Admin Commands</h3>
+            <div class="command-columns" style="display: flex; gap: 3rem; flex-wrap: wrap; justify-content: center;">
+                <div class="command-col" style="flex:2 1 400px; min-width:340px; max-width:520px;">
+                    <h3 style="color:#5865f2; margin-bottom:1rem; text-align:center;">Admin & Staff Commands</h3>
                     <div class="command-item">
                         <code>/cr-set-channel</code>
-                        <p>Set the channel to monitor for counting</p>
+                        <p>Set the channel to monitor for counting (Admin only)</p>
                     </div>
                     <div class="command-item">
                         <code>/cr-approval</code>
-                        <p>Set up who should approve reward requests</p>
+                        <p>Set up who should approve reward requests (Admin only)</p>
                     </div>
                     <div class="command-item">
                         <code>/cr-refresh-commands</code>
-                        <p>Refresh slash commands for this server</p>
+                        <p>Refresh slash commands for this server (Admin only)</p>
                     </div>
-                </div>
-                <div class="command-col" style="flex:1 1 250px; min-width:250px; max-width:340px;">
-                    <h3 style="color:#57f287; margin-bottom:1rem; text-align:center;">Staff Commands</h3>
                     <div class="command-item">
                         <code>/cr-approve</code>
-                        <p>Approve or deny pending reward requests</p>
+                        <p>Approve or deny pending reward requests (Staff only)</p>
                     </div>
                 </div>
-                <div class="command-col" style="flex:1 1 250px; min-width:250px; max-width:340px;">
+                <div class="command-col" style="flex:2 1 400px; min-width:340px; max-width:520px;">
                     <h3 style="color:#fca326; margin-bottom:1rem; text-align:center;">User Commands</h3>
                     <div class="command-item">
                         <code>/cr-add</code>
@@ -585,28 +586,28 @@
 
         <div class="setup-section">
             <h2>🚀 Quick Setup</h2>
-            <div class="setup-steps">
-                <div class="setup-step">
+            <div class="setup-steps" style="display:grid;grid-template-columns:repeat(5,1fr);gap:1.5rem;">
+                <div class="setup-step" style="min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;">
                     <div class="step-number">1</div>
                     <h3>Add Bot</h3>
                     <p>Click the "Add to Discord" button above</p>
                 </div>
-                <div class="setup-step">
+                <div class="setup-step" style="min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;">
                     <div class="step-number">2</div>
                     <h3>Set Channel</h3>
                     <p>Use <code>/cr-set-channel</code> to configure your counting channel</p>
                 </div>
-                <div class="setup-step">
+                <div class="setup-step" style="min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;">
                     <div class="step-number">3</div>
                     <h3>Add Reward Approvers</h3>
                     <p>Designate users or a channel to recieve reward requests with <code>/cr-approval</code></p>
                 </div>
-                <div class="setup-step">
+                <div class="setup-step" style="min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;">
                     <div class="step-number">4</div>
                     <h3>Add Rewards</h3>
                     <p>Let users create rewards with <code>/cr-add</code></p>
                 </div>
-                <div class="setup-step">
+                <div class="setup-step" style="min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;">
                     <div class="step-number">5</div>
                     <h3>Start Counting</h3>
                     <p>Watch as the bot tracks progress and celebrates milestones!</p>
