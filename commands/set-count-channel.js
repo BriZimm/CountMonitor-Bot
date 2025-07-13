@@ -31,12 +31,19 @@ module.exports = {
             let detectedCount = 0;
             try {
                 const messages = await channel.messages.fetch({ limit: 50 });
+                // Debug: log the last 10 message contents and authors
+                let debugLog = Array.from(messages.values()).slice(0, 10).map(m => `[${m.author.username}]: ${m.content}`).join('\n');
+                console.log('Last 10 messages in channel:\n' + debugLog);
                 for (const msg of messages.values()) {
                     if (msg.author.bot) continue;
-                    const num = parseInt(msg.content.trim(), 10);
-                    if (!isNaN(num)) {
-                        detectedCount = num;
-                        break;
+                    // Accept numbers even if there is extra text (e.g. "1234!" or "Count: 1234")
+                    const match = msg.content.match(/\b(\d{1,10})\b/);
+                    if (match) {
+                        const num = parseInt(match[1], 10);
+                        if (!isNaN(num)) {
+                            detectedCount = num;
+                            break;
+                        }
                     }
                 }
                 if (detectedCount > 0) {
