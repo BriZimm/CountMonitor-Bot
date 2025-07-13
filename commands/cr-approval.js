@@ -23,6 +23,7 @@ module.exports = {
         let approvalChannelId = null;
         if (modUsernamesRaw) {
             const usernames = modUsernamesRaw.split(',').map(u => u.trim()).filter(Boolean);
+            console.log('Resolving usernames:', usernames);
             for (const username of usernames) {
                 // Try to find user in guild by username#discriminator (case-insensitive, Unicode safe)
                 const lower = username.toLowerCase();
@@ -33,8 +34,10 @@ module.exports = {
                 }
                 if (member) {
                     modUserIds.push(member.user.id);
+                    console.log(`Resolved username: ${username} -> ${member.user.id}`);
                 } else {
                     notFound.push(`user:${username}`);
+                    console.log(`Could not resolve username: ${username}`);
                 }
             }
         }
@@ -57,10 +60,13 @@ module.exports = {
             }
             if (channel) {
                 approvalChannelId = channel.id;
+                console.log(`Resolved channel: ${approvalChannelName} -> ${channel.id}`);
             } else {
                 notFound.push(`#${approvalChannelName}`);
+                console.log(`Could not resolve channel: ${approvalChannelName}`);
             }
         }
+        console.log('modUserIds:', modUserIds, 'approvalChannelId:', approvalChannelId, 'notFound:', notFound);
         if (!modUserIds.length && !approvalChannelId) {
             await interaction.reply({
                 content: `❌ You must specify at least one valid mod username or a valid channel name.\n${notFound.length ? 'Not found: ' + notFound.join(', ') : ''}`,
