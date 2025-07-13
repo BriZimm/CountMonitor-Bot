@@ -24,17 +24,37 @@ module.exports = {
         if (modUsernamesRaw) {
             const usernames = modUsernamesRaw.split(',').map(u => u.trim()).filter(Boolean);
             for (const username of usernames) {
-                // Try to find user in guild by username#discriminator
-                const member = interaction.guild.members.cache.find(m => `${m.user.username}#${m.user.discriminator}`.toLowerCase() === username.toLowerCase());
+                // Try to find user in guild by username#discriminator (case-insensitive, Unicode safe)
+                const lower = username.toLowerCase();
+                let member = interaction.guild.members.cache.find(m => `${m.user.username}#${m.user.discriminator}`.toLowerCase() === lower);
+                // Fallback: try tag property if available (Discord.js v14+)
+                if (!member && interaction.guild.members.cache.find(m => m.user.tag && m.user.tag.toLowerCase() === lower)) {
+                    member = interaction.guild.members.cache.find(m => m.user.tag && m.user.tag.toLowerCase() === lower);
+                }
                 if (member) {
                     modUserIds.push(member.user.id);
                 } else {
-                    notFound.push(username);
+                    notFound.push(`user:${username}`);
                 }
             }
         }
         if (approvalChannelName) {
-            const channel = interaction.guild.channels.cache.find(c => c.name === approvalChannelName || c.id === approvalChannelName.replace(/[<#>]/g, ''));
+            // Support channel mention (e.g. #approvals), channel ID, or plain name
+            let channel = null;
+            const trimmed = approvalChannelName.trim();
+            // Try by ID (if numeric)
+            if (/^\d+$/.test(trimmed)) {
+                channel = interaction.guild.channels.cache.get(trimmed);
+            }
+            // Try by mention (e.g. <#1234567890>)
+            if (!channel && /^<#\d+>$/.test(trimmed)) {
+                const id = trimmed.replace(/[^\d]/g, '');
+                channel = interaction.guild.channels.cache.get(id);
+            }
+            // Try by name (case-insensitive)
+            if (!channel) {
+                channel = interaction.guild.channels.cache.find(c => c.name.toLowerCase() === trimmed.replace(/^#/, '').toLowerCase());
+            }
             if (channel) {
                 approvalChannelId = channel.id;
             } else {
@@ -43,7 +63,7 @@ module.exports = {
         }
         if (!modUserIds.length && !approvalChannelId) {
             await interaction.reply({
-                content: '❌ You must specify at least one valid mod username or a valid channel name.',
+                content: `❌ You must specify at least one valid mod username or a valid channel name.\n${notFound.length ? 'Not found: ' + notFound.join(', ') : ''}`,
                 ephemeral: true
             });
             return;
