@@ -101,7 +101,7 @@ client.once('ready', () => {
 client.on('interactionCreate', async interaction => {
     // Handle button interactions for reward approval/deny
     if (interaction.isButton()) {
-        const { customId, guild, user } = interaction;
+        const { customId, guild, user, message } = interaction;
         if (!guild) return;
         // Only allow staff (ManageGuild) to use these buttons
         const member = await guild.members.fetch(user.id);
@@ -135,6 +135,14 @@ client.on('interactionCreate', async interaction => {
                     'UPDATE rewards SET status = $1 WHERE guild_id = $2 AND goal = $3',
                     ['approved', guildId, goal]
                 );
+                // Disable buttons after approval
+                const disabledRow = message.components.map(row => {
+                    return {
+                        ...row,
+                        components: row.components.map(btn => ({ ...btn, disabled: true }))
+                    };
+                });
+                await message.edit({ components: disabledRow });
                 await interaction.reply({
                     content: `✅ Reward request for goal ${goal} has been approved!`,
                     ephemeral: false
@@ -148,7 +156,7 @@ client.on('interactionCreate', async interaction => {
             } else if (action === 'deny') {
                 // Show modal for denial reason
                 const modal = new ModalBuilder()
-                    .setCustomId(`deny_reason_modal_${guildId}_${goal}`)
+                    .setCustomId(`deny_reason_modal_${guildId}_${goal}_${message.id}`)
                     .setTitle('Deny Reward Request')
                     .addComponents(
                         new ModalActionRowBuilder().addComponents(
@@ -166,21 +174,36 @@ client.on('interactionCreate', async interaction => {
     }
     // Handle modal submit for denial reason
     if (interaction.isModalSubmit()) {
-        const modalMatch = interaction.customId.match(/^deny_reason_modal_(.+)_(\d+)$/);
+        const modalMatch = interaction.customId.match(/^deny_reason_modal_(.+)_(\d+)_(\d+)$/);
         if (modalMatch) {
             const guildId = modalMatch[1];
             const goal = parseInt(modalMatch[2]);
+            const messageId = modalMatch[3];
             const reason = interaction.fields.getTextInputValue('deny_reason');
             // Update status and store reason (optionally add a denial_reason column, or just notify)
             await client.db.query(
                 'UPDATE rewards SET status = $1 WHERE guild_id = $2 AND goal = $3',
                 ['denied', guildId, goal]
             );
+            // Fetch the original approval message and disable buttons
+            try {
+                const channel = interaction.channel;
+                const approvalMsg = await channel.messages.fetch(messageId);
+                if (approvalMsg) {
+                    const disabledRow = approvalMsg.components.map(row => {
+                        return {
+                            ...row,
+                            components: row.components.map(btn => ({ ...btn, disabled: true }))
+                        };
+                    });
+                    await approvalMsg.edit({ components: disabledRow });
+                }
+            } catch (e) { /* ignore fetch/edit errors */ }
             await interaction.reply({
-                content: `❌ Reward request for goal ${goal} has been denied. Reason: ${reason}`,
+                content: `❌ Reward request for goal ${goal} has been denied.`,
                 ephemeral: false
             });
-            // Notify the provider
+            // Notify the provider with the denial reason via DM only
             const rewards = await client.db.getRewards(guildId);
             const reward = rewards.find(r => r.goal === goal);
             if (reward) {
