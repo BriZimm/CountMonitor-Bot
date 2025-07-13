@@ -41,7 +41,7 @@ module.exports = {
                 notFound.push(`#${approvalChannelName}`);
             }
         }
-        if (!modUserIds.length && !approvalChannelId) {
+        if (!modUsernamesRaw && !approvalChannelName) {
             await interaction.reply({
                 content: '❌ You must specify at least one mod username or a channel name.',
                 ephemeral: true
