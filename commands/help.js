@@ -26,6 +26,6 @@ module.exports = {
                 { name: '/cr-refresh-commands', value: 'Refresh slash commands for this server (Admin only)', inline: false }
             );
 
-        await interaction.reply({ embeds: [embed], ephemeral: true });
+        await interaction.reply({ embeds: [embed], ephemeral: false });
     }
 };
